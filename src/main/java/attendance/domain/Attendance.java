@@ -14,7 +14,7 @@ public class Attendance {
         this.name = name;
         this.date = date;
         this.time = time;
-        this.status = null;
+        this.status = Status.from(date, time);
     }
 
     public static Attendance of(String name, LocalDate date, LocalTime time) {
@@ -25,15 +25,42 @@ public class Attendance {
         return name;
     }
 
-    public LocalDate getDate() {
+    public java.time.LocalDate getDate() {
         return date;
     }
 
-    public LocalTime getTime() {
+    public java.time.LocalTime getTime() {
         return time;
     }
 
     public Status getStatus() {
         return status;
+    }
+
+    public int getDayOfMonth() {
+        return date.getDayOfMonth();
+    }
+
+    public int getHour() {
+        if (time == null) {
+            return -1;
+        }
+        return time.getHour();
+    }
+
+    public int getMinute() {
+        if (time == null) {
+            return -1;
+        }
+        return time.getMinute();
+    }
+
+    public String getDayName() {
+        return Day.koreanName(date);
+    }
+
+    public void updateTime(java.time.LocalTime time) {
+        this.time = time;
+        this.status = Status.from(date, time);
     }
 }
